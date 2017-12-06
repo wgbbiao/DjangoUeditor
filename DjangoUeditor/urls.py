@@ -1,8 +1,8 @@
-#coding:utf-8
-from django.conf.urls import url
+# coding:utf-8
+from django.conf.urls import re_path
 
-from views import get_ueditor_controller
+from .views import get_ueditor_controller
 
 urlpatterns = [
-    url(r'^controller/$',get_ueditor_controller)
+    re_path(r'^controller/$', get_ueditor_controller)
 ]
