@@ -14,7 +14,7 @@ class XadminUEditorWidget(UEditorWidget):
 
     def __init__(self, **kwargs):
         self.ueditor_settings = kwargs
-        # self.Media.js = None
+        self.Media.js = None
         super(XadminUEditorWidget, self).__init__(kwargs)
 
 
