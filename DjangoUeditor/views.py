@@ -162,7 +162,7 @@ def UploadFile(request):
         "uploadimage": "imageAllowFiles",
         "uploadvideo": "videoAllowFiles"
     }
-    if upload_allow_type.has_key(action):
+    if upload_allow_type.get(action):
         allow_type = list(request.GET.get(upload_allow_type[action], USettings.UEditorUploadSettings.get(upload_allow_type[action], "")))
         if not upload_original_ext.lower() in allow_type:
             state = u"服务器不允许上传%s类型的文件。" % upload_original_ext
@@ -174,9 +174,9 @@ def UploadFile(request):
         "uploadscrawl": "scrawlMaxSize",
         "uploadvideo": "videoMaxSize"
     }
-    max_size = long(request.GET.get(upload_max_size[action], USettings.UEditorUploadSettings.get(upload_max_size[action], 0)))
+    max_size = int(request.GET.get(upload_max_size[action], USettings.UEditorUploadSettings.get(upload_max_size[action], 0)))
     if max_size != 0:
-        from utils import FileSize
+        from .utils import FileSize
         MF = FileSize(max_size)
         if upload_file_size > MF.size:
             state = u"上传文件大小不允许超过%s。" % MF.FriendValue
@@ -213,7 +213,7 @@ def UploadFile(request):
 
     # 返回数据
     return_info = {
-        'url': urllib.basejoin(USettings.gSettings.MEDIA_URL, OutputPathFormat),                # 保存后的文件名称
+        'url': urllib.parse.urljoin(USettings.gSettings.MEDIA_URL, OutputPathFormat),                # 保存后的文件名称
         'original': upload_file_name,  # 原始文件名
         'type': upload_original_ext,
         'state': state,  # 上传状态，成功时返回SUCCESS,其他任何值将原样返回至图片上传框中
